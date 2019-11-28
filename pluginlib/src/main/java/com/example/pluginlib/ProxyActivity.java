@@ -1,15 +1,17 @@
 package com.example.pluginlib;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 /**
  * 代理activity,管理插件activity的生命周期
  */
-public class ProxyActivity extends Activity {
+public class ProxyActivity extends FragmentActivity implements IProxy {
 
     private String mClassName;
     private PluginApk mPluginApk;
@@ -56,4 +58,43 @@ public class ProxyActivity extends Activity {
     public ClassLoader getClassLoader() {
         return mPluginApk!=null?mPluginApk.mClassLoader:super.getClassLoader();
     }
+
+    @Override
+    public FragmentActivity getProxyActivity() {
+        return this;
+    }
+
+    @Override
+    public void startActivityForResult(Intent bundle, String className, int requestCode) {
+        Intent intent = new Intent(this, ProxyActivity.class);
+
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+
+//        intent.putExtra(EXTRA_APK, mApkPath);
+        intent.putExtra("className", className);
+
+        startActivityForResult(intent, requestCode);
+    }
+
+//    @Override
+//    public FragmentActivity getProxyActivity() {
+//        return this;
+//    }
+//
+//    @Override
+//    public void startActivityForResult(Intent bundle, String className, int requestCode) {
+//        Intent intent = new Intent(this, ProxyActivity.class);
+//
+//        if (bundle != null) {
+//            intent.putExtras(bundle);
+//        }
+//
+////        intent.putExtra(EXTRA_APK, mApkPath);
+//        intent.putExtra("className", className);
+//
+//        startActivityForResult(intent, requestCode);
+//
+//    }
 }

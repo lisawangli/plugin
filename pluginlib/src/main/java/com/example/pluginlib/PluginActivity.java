@@ -3,15 +3,17 @@ package com.example.pluginlib;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-public class PluginActivity extends Activity implements IPlugin {
+public class PluginActivity extends FragmentActivity implements IPlugin {
 
     private Activity mProxyActivity;
     private int mFrom = IPlugin.FROM_EXTERNAL;
     @Override
-    public void attach(Activity proxyActivity) {
-        mProxyActivity = proxyActivity;
+    public void attach(IProxy proxyActivity) {
+        mProxy = proxyActivity;
+        mProxyActivity = proxyActivity.getProxyActivity();
     }
 
     @Override
@@ -24,6 +26,24 @@ public class PluginActivity extends Activity implements IPlugin {
             mProxyActivity = this;
         }
     }
+
+    private IProxy mProxy;
+
+    public void startActivity(Intent intent, Class<?> clazz) {
+        startActivity(intent, clazz.getName());
+    }
+
+    public void startActivity(Intent intent, String className) {
+        startActivityForResult(intent, className, -1);
+    }
+
+
+    public void startActivityForResult(Intent bundle, String className,
+                                       int requestCode) {
+        mProxy.startActivityForResult(bundle,className,requestCode);
+
+    }
+    
 
     @Override
     public void onStart() {
@@ -64,6 +84,15 @@ public class PluginActivity extends Activity implements IPlugin {
     public void onStop() {
         if (mFrom==FROM_INTERNAL){
             super.onStop();
+        }
+    }
+
+    @Override
+    public <T extends View> T findViewById(int id) {
+        if (mFrom==FROM_INTERNAL) {
+            return super.findViewById(id);
+        } else{
+            return mProxyActivity.findViewById(id);
         }
     }
 

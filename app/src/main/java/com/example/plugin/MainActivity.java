@@ -41,7 +41,6 @@ public class MainActivity extends Activity {
                 copy();
                 Log.e("MainActivity","======"+apkPath);
                 File file = new File(apkPath);
-                Log.e("MainActivity","file==="+file.exists());
                 PluginManager.getInstance().loadApk(apkPath);
             }
         });

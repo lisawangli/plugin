@@ -28,7 +28,6 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this,ProxyActivity.class);
                 String otherApkMainActivityName = PluginManager.getInstance().getPluginApk().packageInfo.activities[0].name;
-                Log.e("MainActivity","===otherApkMainActivityName==="+otherApkMainActivityName);
                 intent.putExtra("className",otherApkMainActivityName);
                 startActivity(intent);
 
@@ -39,7 +38,6 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 copy();
-                Log.e("MainActivity","======"+apkPath);
                 File file = new File(apkPath);
                 PluginManager.getInstance().loadApk(apkPath);
             }

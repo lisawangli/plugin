@@ -33,6 +33,8 @@ public class ProxyActivity extends FragmentActivity implements IProxy {
         try {
             Class<?> clazz = mPluginApk.mClassLoader.loadClass(mClassName);
             Object object = clazz.newInstance();
+            Log.e("ProxyActivity","object:"+object);
+
             if (object instanceof IPlugin){
                 mIplugin = (IPlugin) object;
                 mIplugin.attach(this);
@@ -71,30 +73,9 @@ public class ProxyActivity extends FragmentActivity implements IProxy {
         if (bundle != null) {
             intent.putExtras(bundle);
         }
-
-//        intent.putExtra(EXTRA_APK, mApkPath);
         intent.putExtra("className", className);
 
         startActivityForResult(intent, requestCode);
     }
 
-//    @Override
-//    public FragmentActivity getProxyActivity() {
-//        return this;
-//    }
-//
-//    @Override
-//    public void startActivityForResult(Intent bundle, String className, int requestCode) {
-//        Intent intent = new Intent(this, ProxyActivity.class);
-//
-//        if (bundle != null) {
-//            intent.putExtras(bundle);
-//        }
-//
-////        intent.putExtra(EXTRA_APK, mApkPath);
-//        intent.putExtra("className", className);
-//
-//        startActivityForResult(intent, requestCode);
-//
-//    }
 }

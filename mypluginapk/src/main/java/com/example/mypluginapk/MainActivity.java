@@ -23,9 +23,6 @@ public class MainActivity extends PluginActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-//                intent.setClass(MainActivity.this,ProxyActivity.class);
-                String otherApkMainActivityName ="com.example.mypluginapk.OneActivity";
-//                intent.putExtra("className",otherApkMainActivityName);
                 startActivity(intent,OneActivity.class);
             }
         });

@@ -2,8 +2,10 @@ package com.example.pluginlib;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 
 public class PluginActivity extends FragmentActivity implements IPlugin {
@@ -19,11 +21,21 @@ public class PluginActivity extends FragmentActivity implements IPlugin {
     @Override
     public void onCreate(Bundle saveInstanceState) {
         if (saveInstanceState!=null){
+            Log.e("PluginActivity","=====onCreate====");
             mFrom = saveInstanceState.getInt("FROM");
         }
         if (mFrom==FROM_INTERNAL){
             super.onCreate(saveInstanceState);
             mProxyActivity = this;
+        }
+    }
+
+
+    public Resources getResources(){
+        if (mFrom==FROM_INTERNAL) {
+            return super.getResources();
+        } else{
+            return mProxyActivity.getResources();
         }
     }
 
@@ -41,9 +53,8 @@ public class PluginActivity extends FragmentActivity implements IPlugin {
     public void startActivityForResult(Intent bundle, String className,
                                        int requestCode) {
         mProxy.startActivityForResult(bundle,className,requestCode);
-
     }
-    
+
 
     @Override
     public void onStart() {

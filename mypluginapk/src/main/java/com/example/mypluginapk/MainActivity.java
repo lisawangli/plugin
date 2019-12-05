@@ -10,6 +10,8 @@ import com.example.pluginlib.PluginActivity;
 import com.example.pluginlib.PluginManager;
 import com.example.pluginlib.ProxyActivity;
 
+import mplugindemo.shengyuan.com.mplugin_demo.PluginApkDemoActivity;
+
 public class MainActivity extends PluginActivity {
 
 
@@ -23,7 +25,9 @@ public class MainActivity extends PluginActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                startActivity(intent,OneActivity.class);
+                startActivity(intent,mplugindemo.shengyuan.com.mplugin_demo.MainActivity.class);
+//                Intent intent = new Intent(MainActivity.this, mplugindemo.shengyuan.com.mplugin_demo.MainActivity.class);
+//                startActivity(intent);
             }
         });
     }

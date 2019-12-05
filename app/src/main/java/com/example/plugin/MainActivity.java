@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.pluginlib.PluginManager;
 import com.example.pluginlib.ProxyActivity;
@@ -38,7 +39,9 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 copy();
-                File file = new File(apkPath);
+//                String  apkPath = Environment.getExternalStorageDirectory().getAbsolutePath()
+//                        + File.separator + "aa.apk";
+                Toast.makeText(MainActivity.this,"复制成功",Toast.LENGTH_LONG).show();
                 PluginManager.getInstance().loadApk(apkPath);
             }
         });

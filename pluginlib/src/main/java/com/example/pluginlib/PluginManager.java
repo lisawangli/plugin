@@ -7,6 +7,8 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.util.Log;
 
+import com.example.pluginlib.hook.HookUtil;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -41,11 +43,12 @@ public class PluginManager {
          packageInfo = mContext.getPackageManager().getPackageArchiveInfo(apkPath,PackageManager.GET_ACTIVITIES|PackageManager.GET_SERVICES);
         if (packageInfo==null)
             return;
-
+        Log.e("PluginManager",new File(apkPath).exists()+"===apkPath111======"+apkPath);
+        ClassLoader classLoaderSo =  HookUtil.hookApkInfo(mContext,apkPath,true);
         DexClassLoader classLoader = createDexClassLoader(apkPath);
         AssetManager am = createAssertManager(apkPath);
         Resources resources = createResource(am);
-        mPluginApk = new PluginApk(packageInfo,resources,classLoader);
+        mPluginApk = new PluginApk(packageInfo,resources,classLoader,classLoaderSo);
     }
 
     private DexClassLoader createDexClassLoader(String apkPath) {
@@ -55,6 +58,7 @@ public class PluginManager {
 
         return dexClassLoader;
     }
+
 
     private AssetManager createAssertManager(String apkPath){
         try {
@@ -72,5 +76,6 @@ public class PluginManager {
         Resources res = mContext.getResources();
         return new Resources(am,res.getDisplayMetrics(),res.getConfiguration());
     }
+
 
 }
